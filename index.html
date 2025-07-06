@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>OR-Sell Company</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
+    header { background-color: #333; color: #fff; padding: 20px; text-align: center; }
+    nav { background-color: #444; text-align: center; padding: 10px; }
+    nav a { color: #fff; margin: 10px; text-decoration: none; font-weight: bold; }
+    .logo { text-align: center; margin: 30px auto; }
+    .logo img { width: 180px; border-radius: 10px; }
+    section { max-width: 800px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
+    h2 { color: #333; }
+    form input, form textarea { width: 100%; padding: 10px; margin-top: 10px; border-radius: 4px; border: 1px solid #ccc; }
+    form button { margin-top: 10px; background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+    form button:hover { background-color: #218838; }
+    footer { background: #eee; text-align: center; padding: 15px; font-size: 0.9em; color: #666; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>OR-Sell Company</h1>
+  </header>
+
+  <nav>
+    <a href="#urunler">Ürünler</a>
+    <a href="#tasarimlar">Tasarım</a>
+    <a href="#siparis">Sipariş</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+
+  <div class="logo">
+    <img src="logo.png" alt="OR-Sell Logo">
+  </div>
+
+  <section id="urunler">
+    <h2>🛍️ Ürünler</h2>
+    <p>Satıştaki ürünlerin listesi buraya gelecek. Ürün görselleri, açıklamaları ve fiyat bilgileri eklenebilir.</p>
+  </section>
+
+  <section id="tasarimlar">
+    <h2>🎨 Tasarımlar</h2>
+    <p>Özel tasarım projeleriniz burada sergilenecek. İstersen galeri şeklinde görseller de yerleştirebiliriz.</p>
+  </section>
+
+  <section id="siparis">
+    <h2>📦 Sipariş Ver</h2>
+    <form action="mailto:orhan@example.com" method="post" enctype="text/plain">
+      <label for="name">Adınız:</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="message">Mesajınız:</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+      
+      <button type="submit">Gönder</button>
+    </form>
+    <p style="font-size:0.9em; color:#666;">Siparişler için yukarıdaki formu kullanabilir veya doğrudan iletişime geçebilirsiniz.</p>
+  </section>
+
+  <section id="iletisim">
+    <h2>📧 İletişim</h2>
+    <p>E-posta: <a href="mailto:orhan@example.com">orhan@example.com</a></p>
+  </section>
+
+  <footer>
+    Ürünler kişiye aittir. İzinsiz ticari amaçla kullanılması yasaktır.
+  </footer>
+
+</body>
+</html>
