@@ -7,10 +7,9 @@
   <style>
     body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
     header { background-color: #333; color: #fff; padding: 20px; text-align: center; }
+    header img { height: 80px; vertical-align: middle; margin-bottom: 10px; }
     nav { background-color: #444; text-align: center; padding: 10px; }
     nav a { color: #fff; margin: 10px; text-decoration: none; font-weight: bold; }
-    .logo { text-align: center; margin: 30px auto; }
-    .logo img { width: 180px; border-radius: 10px; }
     section { max-width: 800px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
     h2 { color: #333; }
     form input, form textarea { width: 100%; padding: 10px; margin-top: 10px; border-radius: 4px; border: 1px solid #ccc; }
@@ -22,6 +21,7 @@
 <body>
 
   <header>
+    <img src="BDD3maGqxFsSizYiF6q6z.png" alt="OR-Sell Logo">
     <h1>OR-Sell Company</h1>
   </header>
 
@@ -30,11 +30,8 @@
     <a href="#tasarimlar">Tasarım</a>
     <a href="#siparis">Sipariş</a>
     <a href="#iletisim">İletişim</a>
+    <a href="#dergi">Dergi</a>
   </nav>
-
-  <div class="logo">
-    <img src="logo.png" alt="OR-Sell Logo">
-  </div>
 
   <section id="urunler">
     <h2>🛍️ Ürünler</h2>
@@ -48,7 +45,7 @@
 
   <section id="siparis">
     <h2>📦 Sipariş Ver</h2>
-    <form action="mailto:orhan@example.com" method="post" enctype="text/plain">
+    <form action="mailto:orhanselimdaglar@gmail.com" method="post" enctype="text/plain">
       <label for="name">Adınız:</label>
       <input type="text" id="name" name="name" required>
       
@@ -60,23 +57,31 @@
     <p style="font-size:0.9em; color:#666;">Siparişler için yukarıdaki formu kullanabilir veya doğrudan iletişime geçebilirsiniz.</p>
   </section>
 
-<section id="iletisim">
-  <h2>📧 İletişim</h2>
-  <p>E-posta: <a href="mailto:orhanselimdaglar@gmail.com">orhanselimdaglar@gmail.com</a></p>
-</section>
-<section id="dergi">
-  <h2>📰 OR-Sell Dergisi</h2>
-  <p>Burada ürünlerimiz, tasarımlarımız ve projelerimizle ilgili içerikler yayınlanmaktadır. Her ay yeni makaleler ve içerikler sizlerle!</p>
+  <section id="iletisim">
+    <h2>📧 İletişim</h2>
+    <p>E-posta: <a href="mailto:orhanselimdaglar@gmail.com">orhanselimdaglar@gmail.com</a></p>
+  </section>
 
-  <article>
-    <h3>Temmuz Sayısı: Tasarımda LEGO’nun Yeri</h3>
-    <p>LEGO parçalarıyla yapılan mühendislik projeleri hem estetik hem de işlevsel çözümler sunuyor. Bu sayımızda en yaratıcı LEGO yapılarımıza göz atın.</p>
-    <a href="#">Devamını Oku</a>
-  </article>
+  <section id="dergi">
+    <h2>📰 OR-Sell Dergisi</h2>
+    <p>Burada ürünlerimiz, tasarımlarımız ve projelerimizle ilgili içerikler yayınlanmaktadır. Her ay yeni makaleler ve içerikler sizlerle!</p>
 
-  <article>
-    <h3>Yeni Tasarım Yaklaşımları</h3>
-    <p>Modüler ürün sistemleri, kullanıcı deneyimini nasıl dönüştürüyor? Tasarım felsefemizi bu yazıda inceliyoruz.</p>
-    <a href="#">Devamını Oku</a>
-  </article>
-</section>
+    <article>
+      <h3>Temmuz Sayısı: Tasarımda LEGO’nun Yeri</h3>
+      <p>LEGO parçalarıyla yapılan mühendislik projeleri hem estetik hem de işlevsel çözümler sunuyor. Bu sayımızda en yaratıcı LEGO yapılarımıza göz atın.</p>
+      <a href="#">Devamını Oku</a>
+    </article>
+
+    <article>
+      <h3>Yeni Tasarım Yaklaşımları</h3>
+      <p>Modüler ürün sistemleri, kullanıcı deneyimini nasıl dönüştürüyor? Tasarım felsefemizi bu yazıda inceliyoruz.</p>
+      <a href="#">Devamını Oku</a>
+    </article>
+  </section>
+
+  <footer>
+    OR-Sell Company © 2025 | Tüm hakları saklıdır.
+  </footer>
+
+</body>
+</html>
