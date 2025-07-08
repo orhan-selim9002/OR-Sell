@@ -5,24 +5,110 @@
   <title>OR-Sell | Ürünler</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; }
-    header { background-color: #004080; color: #fff; padding: 20px; text-align: center; }
-    .content { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.08); }
-    footer { background-color: #eee; text-align: center; padding: 15px; font-size: 0.9em; color: #666; margin-top: 50px; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #004080;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin-bottom: 5px;
+    }
+
+    .menu-container {
+      background-color: #004080;
+      padding: 10px;
+    }
+
+    .menu-icon {
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      display: block;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    .menu {
+      display: none;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu li a {
+      display: block;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: white;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      background-color: #0059b3;
+    }
+
+    .menu li a:hover {
+      background-color: #007acc;
+    }
+
+    #menu-toggle:checked + .menu-icon + .menu {
+      display: block;
+    }
+
+    .content {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      background-color: #eee;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 50px;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <h1>🛍️ Ürünler</h1>
     <p>OR-Sell Company ürün kataloğu</p>
   </header>
 
+  <div class="menu-container">
+    <input type="checkbox" id="menu-toggle" />
+    <label for="menu-toggle" class="menu-icon">&#9776; Menü</label>
+    <ul class="menu">
+      <li><a href="index.html">Anasayfa</a></li>
+      <li><a href="urunler.html">Ürünler</a></li>
+      <li><a href="tasarimlar.html">Tasarım</a></li>
+      <li><a href="siparis.html">Sipariş</a></li>
+      <li><a href="iletisim.html">İletişim</a></li>
+      <li><a href="dergi.html">Dergi</a></li>
+    </ul>
+  </div>
+
   <div class="content">
-    <p>Burada ürün görselleri, açıklamaları ve fiyat bilgileri yer alacak. Daha fazla ürün eklemeye hazır mısın?</p>
+    <h2>Mevcut Ürünler</h2>
+    <p>Bu alanda ürün görselleri, açıklamaları ve fiyat bilgilerini sergileyebilirsin. İstersen ürünleri kart formatında yerleştirerek modern bir görünüm de elde edebiliriz.</p>
   </div>
 
   <footer>
     OR-Sell Company © 2025 | Tüm hakları saklıdır.
   </footer>
+
 </body>
 </html>
