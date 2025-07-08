@@ -2,233 +2,108 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>OR-Sell Shadows: Bölüm 1</title>
+  <title>OR-Sell Shadows: Bölüm 1 - Geliştirilmiş</title>
   <style>
-    canvas { background: #111; display: block; margin: 0 auto; }
-    body { margin: 0; font-family: 'Segoe UI'; }
+    body { margin: 0; font-family: 'Segoe UI'; background: #101010; }
+    canvas { display: block; margin: 0 auto; background: #222; }
   </style>
 </head>
 <body>
-<canvas id="gameCanvas" width="800" height="400"></canvas>
+<canvas id="gameCanvas" width="900" height="450"></canvas>
 
 <script>
-  const canvas = document.getElementById("gameCanvas");
-  const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-  let player = { x: 50, y: 350, w: 30, h: 30, vx: 0, vy: 0, speed: 3, jump: -10, onGround: false };
-  let gravity = 0.5;
-  let keys = {};
+let player = { x: 50, y: 400, w: 30, h: 30, vx: 0, vy: 0, speed: 3, jump: -12, onGround: false };
+let gravity = 0.6;
+let keys = {};
 
-  const platforms = [
-    { x: 0, y: 380, w: 800, h: 20 },
-    { x: 200, y: 320, w: 100, h: 20 },
-    { x: 350, y: 270, w: 100, h: 20 },
-    { x: 500, y: 220, w: 100, h: 20 }
-  ];
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
 
-  document.addEventListener("keydown", e => keys[e.key] = true);
-  document.addEventListener("keyup", e => keys[e.key] = false);
+// Yeni büyük parkur
+const platforms = [
+  { x: 0, y: 420, w: 900, h: 30 },
+  { x: 150, y: 370, w: 120, h: 20 },
+  { x: 300, y: 320, w: 120, h: 20 },
+  { x: 450, y: 270, w: 120, h: 20 },
+  { x: 600, y: 220, w: 120, h: 20 },
+  { x: 750, y: 170, w: 120, h: 20 },
+  { x: 500, y: 400, w: 60, h: 20 },
+  { x: 700, y: 360, w: 60, h: 20 },
+  { x: 820, y: 300, w: 40, h: 20 }
+];
 
-  function update() {
-    player.vx = 0;
+function update() {
+  player.vx = 0;
 
-    if (keys["ArrowLeft"]) player.vx = -player.speed;
-    if (keys["ArrowRight"]) player.vx = player.speed;
-    if (keys["ArrowUp"] && player.onGround) {
-      player.vy = player.jump;
-      player.onGround = false;
-    }
-
-    player.x += player.vx;
-    player.y += player.vy;
-    player.vy += gravity;
-
+  if (keys["ArrowLeft"]) player.vx = -player.speed;
+  if (keys["ArrowRight"]) player.vx = player.speed;
+  if (keys["ArrowUp"] && player.onGround) {
+    player.vy = player.jump;
     player.onGround = false;
-    platforms.forEach(p => {
-      if (
-        player.x < p.x + p.w &&
-        player.x + player.w > p.x &&
-        player.y < p.y + p.h &&
-        player.y + player.h > p.y
-      ) {
+  }
+
+  // Hareketi uygula
+  player.x += player.vx;
+  player.y += player.vy;
+  player.vy += gravity;
+
+  // Çarpışma kontrolü
+  player.onGround = false;
+  platforms.forEach(p => {
+    // yatay çarpışma
+    if (
+      player.x + player.w > p.x &&
+      player.x < p.x + p.w &&
+      player.y + player.h > p.y &&
+      player.y < p.y + p.h
+    ) {
+      // dikey çarpma (alttan gelirse)
+      if (player.vy > 0) {
         player.y = p.y - player.h;
         player.vy = 0;
         player.onGround = true;
       }
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ccc";
-    platforms.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
-    ctx.fillStyle = "#00ffcc";
-    ctx.fillRect(player.x, player.y, player.w, player.h);
-  }
-
-  function gameLoop() {
-    update();
-    draw();
-    requestAnimationFrame(gameLoop);
-  }
-
-  gameLoop();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <title>OR-Sell Shadows: Bölüm 1</title>
-  <style>
-    canvas { background: #111; display: block; margin: 0 auto; }
-    body { margin: 0; font-family: 'Segoe UI'; }
-  </style>
-</head>
-<body>
-<canvas id="gameCanvas" width="800" height="400"></canvas>
-
-<script>
-  const canvas = document.getElementById("gameCanvas");
-  const ctx = canvas.getContext("2d");
-
-  let player = { x: 50, y: 350, w: 30, h: 30, vx: 0, vy: 0, speed: 3, jump: -10, onGround: false };
-  let gravity = 0.5;
-  let keys = {};
-
-  const platforms = [
-    { x: 0, y: 380, w: 800, h: 20 },
-    { x: 200, y: 320, w: 100, h: 20 },
-    { x: 350, y: 270, w: 100, h: 20 },
-    { x: 500, y: 220, w: 100, h: 20 }
-  ];
-
-  document.addEventListener("keydown", e => keys[e.key] = true);
-  document.addEventListener("keyup", e => keys[e.key] = false);
-
-  function update() {
-    player.vx = 0;
-
-    if (keys["ArrowLeft"]) player.vx = -player.speed;
-    if (keys["ArrowRight"]) player.vx = player.speed;
-    if (keys["ArrowUp"] && player.onGround) {
-      player.vy = player.jump;
-      player.onGround = false;
-    }
-
-    player.x += player.vx;
-    player.y += player.vy;
-    player.vy += gravity;
-
-    player.onGround = false;
-    platforms.forEach(p => {
-      if (
-        player.x < p.x + p.w &&
-        player.x + player.w > p.x &&
-        player.y < p.y + p.h &&
-        player.y + player.h > p.y
-      ) {
-        player.y = p.y - player.h;
+      // yukarıdan çarpma
+      else if (player.vy < 0) {
+        player.y = p.y + p.h;
         player.vy = 0;
-        player.onGround = true;
       }
-    });
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ccc";
-    platforms.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
-    ctx.fillStyle = "#00ffcc";
-    ctx.fillRect(player.x, player.y, player.w, player.h);
-  }
-
-  function gameLoop() {
-    update();
-    draw();
-    requestAnimationFrame(gameLoop);
-  }
-
-  gameLoop();
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <title>OR-Sell Shadows: Bölüm 1</title>
-  <style>
-    canvas { background: #111; display: block; margin: 0 auto; }
-    body { margin: 0; font-family: 'Segoe UI'; }
-  </style>
-</head>
-<body>
-<canvas id="gameCanvas" width="800" height="400"></canvas>
-
-<script>
-  const canvas = document.getElementById("gameCanvas");
-  const ctx = canvas.getContext("2d");
-
-  let player = { x: 50, y: 350, w: 30, h: 30, vx: 0, vy: 0, speed: 3, jump: -10, onGround: false };
-  let gravity = 0.5;
-  let keys = {};
-
-  const platforms = [
-    { x: 0, y: 380, w: 800, h: 20 },
-    { x: 200, y: 320, w: 100, h: 20 },
-    { x: 350, y: 270, w: 100, h: 20 },
-    { x: 500, y: 220, w: 100, h: 20 }
-  ];
-
-  document.addEventListener("keydown", e => keys[e.key] = true);
-  document.addEventListener("keyup", e => keys[e.key] = false);
-
-  function update() {
-    player.vx = 0;
-
-    if (keys["ArrowLeft"]) player.vx = -player.speed;
-    if (keys["ArrowRight"]) player.vx = player.speed;
-    if (keys["ArrowUp"] && player.onGround) {
-      player.vy = player.jump;
-      player.onGround = false;
     }
+  });
 
-    player.x += player.vx;
-    player.y += player.vy;
-    player.vy += gravity;
-
-    player.onGround = false;
-    platforms.forEach(p => {
-      if (
-        player.x < p.x + p.w &&
-        player.x + player.w > p.x &&
-        player.y < p.y + p.h &&
-        player.y + player.h > p.y
-      ) {
-        player.y = p.y - player.h;
-        player.vy = 0;
-        player.onGround = true;
-      }
-    });
+  // Kenar önleme
+  if (player.x < 0) player.x = 0;
+  if (player.x + player.w > canvas.width) player.x = canvas.width - player.w;
+  if (player.y + player.h > canvas.height) {
+    player.y = canvas.height - player.h;
+    player.vy = 0;
+    player.onGround = true;
   }
+}
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#ccc";
-    platforms.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
-    ctx.fillStyle = "#00ffcc";
-    ctx.fillRect(player.x, player.y, player.w, player.h);
-  }
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  function gameLoop() {
-    update();
-    draw();
-    requestAnimationFrame(gameLoop);
-  }
+  ctx.fillStyle = "#555";
+  platforms.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
 
-  gameLoop();
+  ctx.fillStyle = "#00ffee";
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+
+  ctx.fillStyle = "#ccc";
+  ctx.font = "16px Segoe UI";
+  ctx.fillText("🧠 Yön tuşları ile ilerle, yukarı tuşuyla zıpla", 20, 30);
+}
+
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();
 </script>
 </body>
 </html>
