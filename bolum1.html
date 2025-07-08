@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>OR-Sell Shadows: Bölüm 1</title>
+  <style>
+    body { margin: 0; font-family: 'Segoe UI'; background: #121212; overflow: hidden; }
+    canvas { display: block; margin: 0 auto; background: #222; }
+  </style>
+</head>
+<body>
+<canvas id="gameCanvas" width="900" height="450"></canvas>
+
+<script>
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+
+  let player = { x: 50, y: 400, w: 30, h: 30, vx: 0, vy: 0, speed: 3, jump: -12, onGround: false };
+  let gravity = 0.6;
+  let keys = {};
+  const levelWidth = 1500;
+
+  document.addEventListener("keydown", e => keys[e.key] = true);
+  document.addEventListener("keyup", e => keys[e.key] = false);
+
+  const platforms = [
+    { x: 0, y: 420, w: 1500, h: 30 },
+    { x: 200, y: 370, w: 120, h: 20 },
+    { x: 350, y: 320, w: 120, h: 20 },
+    { x: 500, y: 270, w: 120, h: 20 },
+    { x: 650, y: 220, w: 120, h: 20 },
+    { x: 800, y: 270, w: 120, h: 20 },
+    { x: 1000, y: 320, w: 120, h: 20 },
+    { x: 1250, y: 370, w: 120, h: 20 },
+    { x: 1400, y: 400, w: 40, h: 50 } // Kapı
+  ];
+
+  function update() {
+    player.vx = 0;
+
+    if (keys["ArrowLeft"]) player.vx = -player.speed;
+    if (keys["ArrowRight"]) player.vx = player.speed;
+    if (keys["ArrowUp"] && player.onGround) {
+      player.vy = player.jump;
+      player.onGround = false;
+    }
+
+    player.x += player.vx;
+    player.y += player.vy;
+    player.vy += gravity;
+
+    player.onGround = false;
+    platforms.forEach(p => {
+      if (
+        player.x + player.w > p.x &&
+        player.x < p.x + p.w &&
+        player.y + player.h > p.y &&
+        player.y < p.y + p.h
+      ) {
+        // dikey çarpışma
+        if (player.vy > 0) {
+          player.y = p.y - player.h;
+          player.vy = 0;
+          player.onGround = true;
+        } else if (player.vy < 0) {
+          player.y = p.y + p.h;
+          player.vy = 0;
+        }
+      }
+    });
+
+    // Ekran sınırları
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.w > levelWidth) player.x = levelWidth - player.w;
+    if (player.y + player.h > canvas.height) {
+      player.y = canvas.height - player.h;
+      player.vy = 0;
+      player.onGround = true;
+    }
+
+    // Kapı kontrolü
+    if (player.x + player.w > 1400 && player.y + player.h >= 400) {
+      window.location.href = "bolum2.html"; // Bölüm geçişi
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.translate(-player.x + 200, 0); // Kamera takibi
+
+    // Platformlar
+    ctx.fillStyle = "#666";
+    platforms.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
+
+    // Kapı
+    ctx.fillStyle = "gold";
+    ctx.fillRect(1400, 400, 40, 50);
+
+    // Oyuncu
+    ctx.fillStyle = "#00ffcc";
+    ctx.fillRect(player.x, player.y, player.w, player.h);
+
+    ctx.restore();
+  }
+
+  function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+</script>
+</body>
+</html>
