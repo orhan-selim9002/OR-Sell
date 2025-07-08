@@ -23,13 +23,16 @@
       margin-bottom: 10px;
     }
 
-    .menu-icon {
-      display: block;
+    .menu-container {
       background-color: #004080;
+      padding: 10px;
+    }
+
+    .menu-icon {
+      font-size: 24px;
       color: white;
-      padding: 10px 15px;
-      font-size: 22px;
       cursor: pointer;
+      display: block;
     }
 
     #menu-toggle {
@@ -38,19 +41,18 @@
 
     .menu {
       display: none;
-      background-color: #0059b3;
-      padding: 0;
-      margin: 0;
       list-style: none;
-      text-align: left;
+      margin: 0;
+      padding: 0;
     }
 
     .menu li a {
       display: block;
-      color: white;
       padding: 10px 20px;
       text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      background-color: #0059b3;
     }
 
     .menu li a:hover {
@@ -67,12 +69,19 @@
       background: #fff;
       padding: 30px;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
     }
 
     .intro h2 {
       color: #004080;
+      margin-bottom: 10px;
+    }
+
+    .intro p {
+      font-size: 1em;
+      color: #555;
+      line-height: 1.6;
     }
 
     footer {
@@ -93,15 +102,18 @@
     <p style="font-size: 1.1em; color: #ccc;">Tasarımda Fonksiyonellik & Yenilik</p>
   </header>
 
-  <input type="checkbox" id="menu-toggle" />
-  <label for="menu-toggle" class="menu-icon">&#9776; Menü</label>
-  <ul class="menu">
-    <li><a href="urunler.html">Ürünler</a></li>
-    <li><a href="tasarimlar.html">Tasarım</a></li>
-    <li><a href="siparis.html">Sipariş</a></li>
-    <li><a href="iletisim.html">İletişim</a></li>
-    <li><a href="dergi.html">Dergi</a></li>
-  </ul>
+  <div class="menu-container">
+    <input type="checkbox" id="menu-toggle" />
+    <label for="menu-toggle" class="menu-icon">&#9776; Menü</label>
+    <ul class="menu">
+      <li><a href="index.html">Anasayfa</a></li>
+      <li><a href="urunler.html">Ürünler</a></li>
+      <li><a href="tasarimlar.html">Tasarım</a></li>
+      <li><a href="siparis.html">Sipariş</a></li>
+      <li><a href="iletisim.html">İletişim</a></li>
+      <li><a href="dergi.html">Dergi</a></li>
+    </ul>
+  </div>
 
   <section class="intro">
     <h2>Hoş Geldiniz</h2>
