@@ -2,63 +2,118 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>2 Kişilik Karakter Yarışı</title>
+  <title>OR-Rider: Bölüm 1</title>
   <style>
-    body { font-family: 'Segoe UI'; background: #eef3f9; text-align: center; padding: 20px; }
-    h1 { color: #004080; }
-    .arena { width: 90%; margin: auto; display: flex; flex-direction: column; gap: 40px; margin-top: 40px; }
-    .track { background: linear-gradient(to right, #ccc 0%, #ccc 85%, gold 100%); border-radius: 30px; height: 60px; position: relative; }
-    .runner {
-      position: absolute;
-      top: 8px;
-      width: 45px;
-      height: 45px;
-      background-size: cover;
-      border-radius: 50%;
+    body {
+      margin: 0;
+      background: linear-gradient(to top, #cceeff, #ffffff);
+      overflow: hidden;
+      font-family: 'Segoe UI';
     }
-    #r1 { background-image: url('https://img.icons8.com/color/96/person-male.png'); left: 0; }
-    #r2 { background-image: url('https://img.icons8.com/color/96/person-female.png'); left: 0; }
-    #winner { margin-top: 30px; font-size: 1.3em; color: #008cdd; animation: flash 1s infinite; }
-    @keyframes flash {
-      0% { opacity: 1; }
-      50% { opacity: 0.3; }
-      100% { opacity: 1; }
+    canvas {
+      display: block;
+      background: url('https://i.ibb.co/yqGzWyS/moto-bg.png') no-repeat center center;
+      background-size: cover;
+    }
+    #level-label {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #004080;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+    #win-msg {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: gold;
+      padding: 20px 40px;
+      font-size: 1.5em;
+      border-radius: 10px;
+      color: #004080;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
-
-<h1>🏁 2 Kişilik Karakter Yarışı</h1>
-<p>Oyuncu 1 (A tuşu) 🧍 | Oyuncu 2 (L tuşu) 🧍‍♀️</p>
-
-<div class="arena">
-  <div class="track"><div class="runner" id="r1"></div></div>
-  <div class="track"><div class="runner" id="r2"></div></div>
-</div>
-
-<div id="winner"></div>
+<canvas id="gameCanvas" width="800" height="400"></canvas>
+<div id="level-label">🏁 Bölüm 1</div>
+<div id="win-msg">🎉 Bitiş çizgisine ulaştın!</div>
 
 <script>
-  let pos1 = 0, pos2 = 0;
-  const max = 85;
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
 
-  document.addEventListener("keydown", function(e) {
-    if (document.getElementById("winner").textContent) return;
+  let riderX = 50, riderY = 310;
+  let velocityY = 0;
+  let gravity = 1;
+  let isJumping = false;
+  let finishLine = 700;
 
-    if (e.key === "a") pos1 += 2;
-    if (e.key === "l") pos2 += 2;
+  const groundHeight = 350;
+  const riderImg = new Image();
+  riderImg.src = "https://img.icons8.com/color/96/motorcycle-rider.png";
 
-    document.getElementById("r1").style.left = pos1 + "%";
-    document.getElementById("r2").style.left = pos2 + "%";
+  const ramp = { x: 300, y: groundHeight, width: 80, height: -40 };
+  const box = { x: 500, y: groundHeight - 30, width: 30, height: 30 };
 
-    if (pos1 >= max) {
-      document.getElementById("winner").textContent = "🎉 Oyuncu 1 Kazandı!";
-    }
-    if (pos2 >= max) {
-      document.getElementById("winner").textContent = "🎉 Oyuncu 2 Kazandı!";
+  document.addEventListener("keydown", function(e){
+    if (e.key === "ArrowRight") riderX += 10;
+    if (e.key === "ArrowUp" && !isJumping) {
+      velocityY = -15;
+      isJumping = true;
     }
   });
-</script>
 
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Ground
+    ctx.fillStyle = "#aaa";
+    ctx.fillRect(0, groundHeight, canvas.width, canvas.height - groundHeight);
+
+    // Ramp
+    ctx.fillStyle = "#004080";
+    ctx.beginPath();
+    ctx.moveTo(ramp.x, ramp.y);
+    ctx.lineTo(ramp.x + ramp.width, ramp.y);
+    ctx.lineTo(ramp.x + ramp.width, ramp.y + ramp.height);
+    ctx.closePath();
+    ctx.fill();
+
+    // Obstacle box
+    ctx.fillStyle = "#cc0000";
+    ctx.fillRect(box.x, box.y, box.width, box.height);
+
+    // Finish line
+    ctx.fillStyle = "gold";
+    ctx.fillRect(finishLine, groundHeight - 50, 10, 50);
+
+    // Rider
+    riderY += velocityY;
+    velocityY += gravity;
+    if (riderY >= 310) {
+      riderY = 310;
+      velocityY = 0;
+      isJumping = false;
+    }
+
+    ctx.drawImage(riderImg, riderX, riderY, 45, 45);
+
+    // Win condition
+    if (riderX >= finishLine) {
+      document.getElementById("win-msg").style.display = "block";
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
 </body>
 </html>
