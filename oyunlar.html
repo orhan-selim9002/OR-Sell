@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>2 Kişilik Karakter Yarışı</title>
+  <style>
+    body { font-family: 'Segoe UI'; background: #eef3f9; text-align: center; padding: 20px; }
+    h1 { color: #004080; }
+    .arena { width: 90%; margin: auto; display: flex; flex-direction: column; gap: 40px; margin-top: 40px; }
+    .track { background: linear-gradient(to right, #ccc 0%, #ccc 85%, gold 100%); border-radius: 30px; height: 60px; position: relative; }
+    .runner {
+      position: absolute;
+      top: 8px;
+      width: 45px;
+      height: 45px;
+      background-size: cover;
+      border-radius: 50%;
+    }
+    #r1 { background-image: url('https://img.icons8.com/color/96/person-male.png'); left: 0; }
+    #r2 { background-image: url('https://img.icons8.com/color/96/person-female.png'); left: 0; }
+    #winner { margin-top: 30px; font-size: 1.3em; color: #008cdd; animation: flash 1s infinite; }
+    @keyframes flash {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>🏁 2 Kişilik Karakter Yarışı</h1>
+<p>Oyuncu 1 (A tuşu) 🧍 | Oyuncu 2 (L tuşu) 🧍‍♀️</p>
+
+<div class="arena">
+  <div class="track"><div class="runner" id="r1"></div></div>
+  <div class="track"><div class="runner" id="r2"></div></div>
+</div>
+
+<div id="winner"></div>
+
+<script>
+  let pos1 = 0, pos2 = 0;
+  const max = 85;
+
+  document.addEventListener("keydown", function(e) {
+    if (document.getElementById("winner").textContent) return;
+
+    if (e.key === "a") pos1 += 2;
+    if (e.key === "l") pos2 += 2;
+
+    document.getElementById("r1").style.left = pos1 + "%";
+    document.getElementById("r2").style.left = pos2 + "%";
+
+    if (pos1 >= max) {
+      document.getElementById("winner").textContent = "🎉 Oyuncu 1 Kazandı!";
+    }
+    if (pos2 >= max) {
+      document.getElementById("winner").textContent = "🎉 Oyuncu 2 Kazandı!";
+    }
+  });
+</script>
+
+</body>
+</html>
