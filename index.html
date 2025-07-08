@@ -5,17 +5,84 @@
   <title>OR-Sell Company</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
-    header { background-color: #333; color: #fff; padding: 20px; text-align: center; }
-    header img { height: 80px; vertical-align: middle; margin-bottom: 10px; }
-    nav { background-color: #444; text-align: center; padding: 10px; }
-    nav a { color: #fff; margin: 10px; text-decoration: none; font-weight: bold; }
-    section { max-width: 800px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
-    h2 { color: #333; }
-    form input, form textarea { width: 100%; padding: 10px; margin-top: 10px; border-radius: 4px; border: 1px solid #ccc; }
-    form button { margin-top: 10px; background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
-    form button:hover { background-color: #218838; }
-    footer { background: #eee; text-align: center; padding: 15px; font-size: 0.9em; color: #666; margin-top: 40px; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #004080;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header img {
+      height: 80px;
+      margin-bottom: 10px;
+    }
+
+    .menu-icon {
+      display: block;
+      background-color: #004080;
+      color: white;
+      padding: 10px 15px;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    .menu {
+      display: none;
+      background-color: #0059b3;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      text-align: left;
+    }
+
+    .menu li a {
+      display: block;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .menu li a:hover {
+      background-color: #007acc;
+    }
+
+    #menu-toggle:checked + .menu-icon + .menu {
+      display: block;
+    }
+
+    .intro {
+      max-width: 800px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .intro h2 {
+      color: #004080;
+    }
+
+    footer {
+      background-color: #eee;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 50px;
+    }
   </style>
 </head>
 <body>
@@ -23,60 +90,23 @@
   <header>
     <img src="OR-Sell_logo.png" alt="OR-Sell Logo">
     <h1>OR-Sell Company</h1>
+    <p style="font-size: 1.1em; color: #ccc;">Tasarımda Fonksiyonellik & Yenilik</p>
   </header>
 
-  <nav>
-    <a href="#urunler">Ürünler</a>
-    <a href="#tasarimlar">Tasarım</a>
-    <a href="#siparis">Sipariş</a>
-    <a href="#iletisim">İletişim</a>
-    <a href="#dergi">Dergi</a>
-  </nav>
+  <input type="checkbox" id="menu-toggle" />
+  <label for="menu-toggle" class="menu-icon">&#9776; Menü</label>
+  <ul class="menu">
+    <li><a href="urunler.html">Ürünler</a></li>
+    <li><a href="tasarimlar.html">Tasarım</a></li>
+    <li><a href="siparis.html">Sipariş</a></li>
+    <li><a href="iletisim.html">İletişim</a></li>
+    <li><a href="dergi.html">Dergi</a></li>
+  </ul>
 
-  <section id="urunler">
-    <h2>🛍️ Ürünler</h2>
-    <p>Satıştaki ürünlerin listesi buraya gelecek. Ürün görselleri, açıklamaları ve fiyat bilgileri eklenebilir.</p>
-  </section>
-
-  <section id="tasarimlar">
-    <h2>🎨 Tasarımlar</h2>
-    <p>Özel tasarım projeleriniz burada sergilenecek. İstersen galeri şeklinde görseller de yerleştirebiliriz.</p>
-  </section>
-
-  <section id="siparis">
-    <h2>📦 Sipariş Ver</h2>
-    <form action="mailto:orhanselimdaglar@gmail.com" method="post" enctype="text/plain">
-      <label for="name">Adınız:</label>
-      <input type="text" id="name" name="name" required>
-      
-      <label for="message">Mesajınız:</label>
-      <textarea id="message" name="message" rows="5" required></textarea>
-      
-      <button type="submit">Gönder</button>
-    </form>
-    <p style="font-size:0.9em; color:#666;">Siparişler için yukarıdaki formu kullanabilir veya doğrudan iletişime geçebilirsiniz.</p>
-  </section>
-
-  <section id="iletisim">
-    <h2>📧 İletişim</h2>
-    <p>E-posta: <a href="mailto:orhanselimdaglar@gmail.com">orhanselimdaglar@gmail.com</a></p>
-  </section>
-
-  <section id="dergi">
-    <h2>📰 OR-Sell Dergisi</h2>
-    <p>Dergi bölümünde her ay yeni ürünler, tasarım fikirleri ve sektörel gelişmeleri sizinle paylaşıyoruz.</p>
-
-    <article>
-      <h3>Temmuz 2025 Sayısı</h3>
-      <p>Yeni ürün tasarımları, kullanıcı deneyimi ipuçları ve geliştirici röportajları ile dolu zengin içerik.</p>
-      <a href="#">📖 Dergiyi Görüntüle</a>
-    </article>
-
-    <article>
-      <h3>Modüler Tasarım ve Fonksiyonellik</h3>
-      <p>Bu makalede sade ama güçlü ürün tasarımlarının arkasındaki düşünce sistemini inceliyoruz.</p>
-      <a href="#">Devamını Oku</a>
-    </article>
+  <section class="intro">
+    <h2>Hoş Geldiniz</h2>
+    <p>OR-Sell Company olarak size modern tasarımlar, yenilikçi ürünler ve AI destekli dijital çözümler sunuyoruz. Sol üstteki menüden sayfalarımıza ulaşabilirsiniz.</p>
+    <p style="color: #666; font-size: 0.9em;">Mobil uyumlu, çok dilli ve profesyonel yapı ile dünyaya açılın!</p>
   </section>
 
   <footer>
