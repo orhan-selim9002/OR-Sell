@@ -2,87 +2,85 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>OR-Sell Parkur Oyunu</title>
+  <title>OR-Sell | Bölüm 1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
-      padding: 40px 20px;
-      background: linear-gradient(#800000, #ff3300);
-      background-size: cover;
-      background-attachment: fixed;
-      text-align: center;
-      color: white;
+      background-color: #1e1e1e;
+      overflow: hidden;
     }
 
-    h1 {
-      color: #ffd700;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    #gameArea {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
     }
 
-    p {
-      color: #ffddcc;
-      margin-bottom: 30px;
+    #player {
+      width: 40px;
+      height: 40px;
+      background-color: dodgerblue;
+      position: absolute;
+      top: 100px;
+      left: 100px;
     }
 
-    .bolum-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .bolum-kutu {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 20px;
+    .platform {
       width: 200px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-      transition: transform 0.2s ease, background-color 0.3s;
+      height: 20px;
+      background-color: #444;
+      position: absolute;
+      top: 150px;
+      left: 80px;
     }
 
-    .bolum-kutu:hover {
-      transform: translateY(-4px);
-      background-color: rgba(255, 255, 255, 0.15);
-    }
-
-    .bolum-kutu a {
-      text-decoration: none;
-      color: #ffeeaa;
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-
-    footer {
-      margin-top: 50px;
-      font-size: 0.85em;
-      color: #ffeeaa;
+    #message {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      color: red;
+      font-size: 2em;
+      display: none;
     }
   </style>
 </head>
 <body>
-
-  <h1>🌋 OR-Sell Parkur Oyunu</h1>
-  <p>10 zorlu bölüm seni bekliyor. Aman dikkat, lav her yeri sarmış durumda!</p>
-
-  <div class="bolum-container">
-    <div class="bolum-kutu"><a href="bolum1.html">Bölüm 1</a></div>
-    <div class="bolum-kutu"><a href="bolum2.html">Bölüm 2</a></div>
-    <div class="bolum-kutu"><a href="bolum3.html">Bölüm 3</a></div>
-    <div class="bolum-kutu"><a href="bolum4.html">Bölüm 4</a></div>
-    <div class="bolum-kutu"><a href="bolum5.html">Bölüm 5</a></div>
-    <div class="bolum-kutu"><a href="bolum6.html">Bölüm 6</a></div>
-    <div class="bolum-kutu"><a href="bolum7.html">Bölüm 7</a></div>
-    <div class="bolum-kutu"><a href="bolum8.html">Bölüm 8</a></div>
-    <div class="bolum-kutu"><a href="bolum9.html">Bölüm 9</a></div>
-    <div class="bolum-kutu"><a href="bolum10.html">Bölüm 10</a></div>
+  <div id="gameArea">
+    <div id="player"></div>
+    <div class="platform"></div>
+    <div id="message">💀 Düştün! Oyun yeniden başlıyor...</div>
   </div>
 
-  <footer>
-    OR-Sell Company © 2025 | Dikkat et, lav her an seni yutabilir...
-  </footer>
+  <script>
+    const player = document.getElementById("player");
+    const message = document.getElementById("message");
 
+    // Basit hareket (ok tuşlarıyla sola-sağa)
+    let left = 100;
+    let topPos = 100;
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") left += 10;
+      if (e.key === "ArrowLeft") left -= 10;
+      if (e.key === "ArrowUp") topPos -= 20; // zıplama
+      if (e.key === "ArrowDown") topPos += 10;
+
+      player.style.left = left + "px";
+      player.style.top = topPos + "px";
+    });
+
+    // Düşmeyi kontrol et
+    setInterval(() => {
+      const y = parseInt(player.style.top);
+      if (y > window.innerHeight) {
+        message.style.display = "block";
+        setTimeout(() => {
+          location.reload();
+        }, 1500);
+      }
+    }, 100);
+  </script>
 </body>
 </html>
