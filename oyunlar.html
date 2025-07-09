@@ -17,9 +17,10 @@
       width: 40px;
       height: 40px;
       background: red;
-      bottom: 100px;
       left: 50px;
+      bottom: 100px;
       border-radius: 5px;
+      transition: transform 0.1s linear;
     }
     .platform {
       position: absolute;
@@ -44,10 +45,22 @@
       background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Noun_project_flag_icon_2584310.svg/48px-Noun_project_flag_icon_2584310.svg.png') no-repeat center;
       background-size: contain;
     }
+    #score {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 1.2rem;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
   <div id="message"></div>
+  <div id="score">Skor: 0</div>
   <div id="game">
     <div id="player" class="player"></div>
     <!-- Platformlar -->
@@ -67,8 +80,9 @@
     <div class="platform" style="bottom: 200px; left: 3900px;"></div>
     <div class="platform" style="bottom: 280px; left: 4200px;"></div>
     <div class="platform" style="bottom: 150px; left: 4500px;"></div>
-    <!-- Bayrak -->
-    <div id="flag" style="bottom: 210px; left: 4600px;"></div>
+    <!-- Yeni son platform ve bayrak -->
+    <div class="platform" style="bottom: 210px; left: 4600px;"></div>
+    <div id="flag" style="bottom: 230px; left: 4650px;"></div>
   </div>
 
   <script>
@@ -76,12 +90,17 @@
     const platforms = document.querySelectorAll(".platform");
     const message = document.getElementById("message");
     const flag = document.getElementById("flag");
+    const scoreDisplay = document.getElementById("score");
 
     let x = 50;
     let y = 100;
     let vy = 0;
     let jumping = false;
     let keys = {};
+    let score = 0;
+
+    const gravity = 0.5;
+    const terminalVelocity = 8;
 
     document.addEventListener("keydown", e => keys[e.key] = true);
     document.addEventListener("keyup", e => keys[e.key] = false);
@@ -90,7 +109,14 @@
       x = 50;
       y = 100;
       vy = 0;
+      jumping = false;
+      score = 0;
+      updateScore();
       message.style.display = "none";
+    }
+
+    function updateScore() {
+      scoreDisplay.textContent = `Skor: ${score}`;
     }
 
     function isOnPlatform(px, py) {
@@ -98,44 +124,47 @@
         const rect = plat.getBoundingClientRect();
         const gameRect = document.getElementById("game").getBoundingClientRect();
         const left = rect.left - gameRect.left;
-        const top = rect.top - gameRect.top;
+        const top = gameRect.bottom - rect.bottom;
         const width = rect.width;
 
-        if (px + 40 > left && px < left + width && py + 40 >= top && py + 40 <= top + 10) {
-          return true;
+        if (px + 40 > left && px < left + width && py <= top + 10 && py + 40 >= top) {
+          return top;
         }
       }
-      return false;
+      return null;
     }
 
     function gameLoop() {
-      if (keys["ArrowRight"]) x += 4;
+      if (keys["ArrowRight"]) {
+        x += 4;
+        score++;
+        updateScore();
+      }
       if (keys["ArrowLeft"]) x -= 4;
-      if (keys[" "] || keys["ArrowUp"]) {
-        if (!jumping) {
-          vy = -10;
-          jumping = true;
-        }
+      if ((keys[" "] || keys["ArrowUp"]) && !jumping) {
+        vy = -10;
+        jumping = true;
       }
 
-      vy += 0.5;
+      vy = Math.min(vy + gravity, terminalVelocity);
       y += vy;
 
-      if (isOnPlatform(x, y)) {
-        y = y;
+      const platformY = isOnPlatform(x, y);
+      if (platformY !== null && vy >= 0) {
+        y = platformY;
         vy = 0;
         jumping = false;
       }
 
       player.style.left = x + "px";
       player.style.bottom = y + "px";
-
       window.scrollTo(x - window.innerWidth / 2, 0);
 
       if (y < -100) {
         message.textContent = "Yandın! Tekrar başlıyorsun...";
         message.style.display = "block";
         setTimeout(resetGame, 1500);
+        return;
       }
 
       const flagRect = flag.getBoundingClientRect();
@@ -146,7 +175,7 @@
         playerRect.top < flagRect.bottom &&
         playerRect.bottom > flagRect.top
       ) {
-        message.textContent = "🎉 Kazandın!";
+        message.textContent = `🎉 Kazandın! Toplam skorun: ${score}`;
         message.style.display = "block";
         return;
       }
