@@ -20,7 +20,6 @@
       left: 50px;
       bottom: 100px;
       border-radius: 5px;
-      transition: transform 0.1s linear;
     }
     .platform {
       position: absolute;
@@ -100,7 +99,8 @@
     let score = 0;
 
     const gravity = 0.5;
-    const terminalVelocity = 8;
+    const jumpForce = -10;
+    const terminalVelocity = 10;
 
     document.addEventListener("keydown", e => keys[e.key] = true);
     document.addEventListener("keyup", e => keys[e.key] = false);
@@ -124,10 +124,10 @@
         const rect = plat.getBoundingClientRect();
         const gameRect = document.getElementById("game").getBoundingClientRect();
         const left = rect.left - gameRect.left;
-        const top = gameRect.bottom - rect.bottom;
+        const top = gameRect.height - (rect.bottom - gameRect.top);
         const width = rect.width;
 
-        if (px + 40 > left && px < left + width && py <= top + 10 && py + 40 >= top) {
+        if (px + 40 > left && px < left + width && py + 40 >= top && py + 40 <= top + 10) {
           return top;
         }
       }
@@ -141,17 +141,20 @@
         updateScore();
       }
       if (keys["ArrowLeft"]) x -= 4;
+
+      vy += gravity;
+      vy = Math.min(vy, terminalVelocity);
+
       if ((keys[" "] || keys["ArrowUp"]) && !jumping) {
-        vy = -10;
+        vy = jumpForce;
         jumping = true;
       }
 
-      vy = Math.min(vy + gravity, terminalVelocity);
       y += vy;
 
       const platformY = isOnPlatform(x, y);
       if (platformY !== null && vy >= 0) {
-        y = platformY;
+        y = platformY - 40; // tam platform üstü
         vy = 0;
         jumping = false;
       }
