@@ -2,108 +2,54 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>OR-Sell Shadows: Bölüm 1 - Geliştirilmiş</title>
+  <title>Sayı Tahmin Oyunu</title>
   <style>
-    body { margin: 0; font-family: 'Segoe UI'; background: #101010; }
-    canvas { display: block; margin: 0 auto; background: #222; }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f2f2f2;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+    }
   </style>
 </head>
 <body>
-<canvas id="gameCanvas" width="900" height="450"></canvas>
+  <h1>1 ile 100 Arasında Bir Sayı Tahmin Et</h1>
+  <p>Hadi bakalım, doğru sayıyı bulabilecek misin?</p>
+  
+  <input type="number" id="guessInput" placeholder="Tahminini gir" min="1" max="100">
+  <button onclick="checkGuess()">Tahmin Et</button>
+  
+  <p id="message"></p>
+  <button onclick="resetGame()">Yeniden Başla</button>
 
-<script>
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+  <script>
+    let secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
 
-let player = { x: 50, y: 400, w: 30, h: 30, vx: 0, vy: 0, speed: 3, jump: -12, onGround: false };
-let gravity = 0.6;
-let keys = {};
+    function checkGuess() {
+      const guess = Number(document.getElementById("guessInput").value);
+      const message = document.getElementById("message");
+      attempts++;
 
-document.addEventListener("keydown", e => keys[e.key] = true);
-document.addEventListener("keyup", e => keys[e.key] = false);
-
-// Yeni büyük parkur
-const platforms = [
-  { x: 0, y: 420, w: 900, h: 30 },
-  { x: 150, y: 370, w: 120, h: 20 },
-  { x: 300, y: 320, w: 120, h: 20 },
-  { x: 450, y: 270, w: 120, h: 20 },
-  { x: 600, y: 220, w: 120, h: 20 },
-  { x: 750, y: 170, w: 120, h: 20 },
-  { x: 500, y: 400, w: 60, h: 20 },
-  { x: 700, y: 360, w: 60, h: 20 },
-  { x: 820, y: 300, w: 40, h: 20 }
-];
-
-function update() {
-  player.vx = 0;
-
-  if (keys["ArrowLeft"]) player.vx = -player.speed;
-  if (keys["ArrowRight"]) player.vx = player.speed;
-  if (keys["ArrowUp"] && player.onGround) {
-    player.vy = player.jump;
-    player.onGround = false;
-  }
-
-  // Hareketi uygula
-  player.x += player.vx;
-  player.y += player.vy;
-  player.vy += gravity;
-
-  // Çarpışma kontrolü
-  player.onGround = false;
-  platforms.forEach(p => {
-    // yatay çarpışma
-    if (
-      player.x + player.w > p.x &&
-      player.x < p.x + p.w &&
-      player.y + player.h > p.y &&
-      player.y < p.y + p.h
-    ) {
-      // dikey çarpma (alttan gelirse)
-      if (player.vy > 0) {
-        player.y = p.y - player.h;
-        player.vy = 0;
-        player.onGround = true;
-      }
-      // yukarıdan çarpma
-      else if (player.vy < 0) {
-        player.y = p.y + p.h;
-        player.vy = 0;
+      if (guess === secretNumber) {
+        message.textContent = `Tebrikler! ${attempts} denemede doğru sayıyı buldun: ${secretNumber}`;
+      } else if (guess < secretNumber) {
+        message.textContent = "Daha büyük bir sayı gir!";
+      } else {
+        message.textContent = "Daha küçük bir sayı gir!";
       }
     }
-  });
 
-  // Kenar önleme
-  if (player.x < 0) player.x = 0;
-  if (player.x + player.w > canvas.width) player.x = canvas.width - player.w;
-  if (player.y + player.h > canvas.height) {
-    player.y = canvas.height - player.h;
-    player.vy = 0;
-    player.onGround = true;
-  }
-}
-
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#555";
-  platforms.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
-
-  ctx.fillStyle = "#00ffee";
-  ctx.fillRect(player.x, player.y, player.w, player.h);
-
-  ctx.fillStyle = "#ccc";
-  ctx.font = "16px Segoe UI";
-  ctx.fillText("🧠 Yön tuşları ile ilerle, yukarı tuşuyla zıpla", 20, 30);
-}
-
-function loop() {
-  update();
-  draw();
-  requestAnimationFrame(loop);
-}
-loop();
-</script>
+    function resetGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById("message").textContent = "";
+      document.getElementById("guessInput").value = "";
+    }
+  </script>
 </body>
 </html>
