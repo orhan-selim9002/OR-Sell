@@ -2,54 +2,129 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Sayı Tahmin Oyunu</title>
+  <title>Parkur Oyunu</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-      background-color: #f2f2f2;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #87ceeb; overflow: hidden; }
+
+    #game {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background-color: #87ceeb;
     }
-    input, button {
-      padding: 10px;
-      margin: 10px;
+
+    .player {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: red;
+      bottom: 100px;
+      left: 50px;
+      border-radius: 5px;
+    }
+
+    .platform {
+      position: absolute;
+      width: 200px;
+      height: 20px;
+      background: #333;
+    }
+
+    #message {
+      position: absolute;
+      top: 40%;
+      width: 100%;
+      text-align: center;
+      font-size: 2rem;
+      color: white;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1>1 ile 100 Arasında Bir Sayı Tahmin Et</h1>
-  <p>Hadi bakalım, doğru sayıyı bulabilecek misin?</p>
-  
-  <input type="number" id="guessInput" placeholder="Tahminini gir" min="1" max="100">
-  <button onclick="checkGuess()">Tahmin Et</button>
-  
-  <p id="message"></p>
-  <button onclick="resetGame()">Yeniden Başla</button>
+  <div id="game">
+    <div id="player" class="player"></div>
+    <div class="platform" style="bottom: 80px; left: 0;"></div>
+    <div class="platform" style="bottom: 180px; left: 250px;"></div>
+    <div class="platform" style="bottom: 280px; left: 500px;"></div>
+    <div class="platform" style="bottom: 100px; left: 750px;"></div>
+    <div id="message">Yandın! Tekrar başlıyorsun...</div>
+  </div>
 
   <script>
-    let secretNumber = Math.floor(Math.random() * 100) + 1;
-    let attempts = 0;
+    const player = document.getElementById("player");
+    const platforms = document.querySelectorAll(".platform");
+    const message = document.getElementById("message");
 
-    function checkGuess() {
-      const guess = Number(document.getElementById("guessInput").value);
-      const message = document.getElementById("message");
-      attempts++;
+    let x = 50;
+    let y = 100;
+    let vy = 0;
+    let jumping = false;
+    let keys = {};
 
-      if (guess === secretNumber) {
-        message.textContent = `Tebrikler! ${attempts} denemede doğru sayıyı buldun: ${secretNumber}`;
-      } else if (guess < secretNumber) {
-        message.textContent = "Daha büyük bir sayı gir!";
-      } else {
-        message.textContent = "Daha küçük bir sayı gir!";
-      }
-    }
+    document.addEventListener("keydown", e => keys[e.key] = true);
+    document.addEventListener("keyup", e => keys[e.key] = false);
 
     function resetGame() {
-      secretNumber = Math.floor(Math.random() * 100) + 1;
-      attempts = 0;
-      document.getElementById("message").textContent = "";
-      document.getElementById("guessInput").value = "";
+      x = 50;
+      y = 100;
+      vy = 0;
+      message.style.display = "none";
     }
+
+    function isOnPlatform(px, py) {
+      for (let plat of platforms) {
+        let rect = plat.getBoundingClientRect();
+        let gameRect = document.getElementById("game").getBoundingClientRect();
+        let left = rect.left - gameRect.left;
+        let top = rect.top - gameRect.top;
+        let width = rect.width;
+
+        if (px + 40 > left && px < left + width && py + 40 >= top && py + 40 <= top + 10) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function gameLoop() {
+      // Sağ/sol hareket
+      if (keys["ArrowRight"]) x += 4;
+      if (keys["ArrowLeft"]) x -= 4;
+
+      // Zıplama
+      if (keys[" "]) {
+        if (!jumping) {
+          vy = -10;
+          jumping = true;
+        }
+      }
+
+      vy += 0.5; // Yerçekimi
+      y += vy;
+
+      // Platform kontrolü
+      if (isOnPlatform(x, y)) {
+        y = y;
+        vy = 0;
+        jumping = false;
+      }
+
+      // Oyuncu güncelleme
+      player.style.left = x + "px";
+      player.style.bottom = y + "px";
+
+      // Ölüm kontrolü
+      if (y < -40) {
+        message.style.display = "block";
+        setTimeout(resetGame, 1500);
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
   </script>
 </body>
 </html>
